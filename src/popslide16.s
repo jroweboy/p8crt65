@@ -2,13 +2,12 @@
 .include "popslideinternal.inc"
 
 .bss
-.align 2
 vector: .res 2
 sp_save: .res 1
 popslide_used: .res 1
 
-.code
-.align 256
+
+.segment "POPSLIDE"
 popslide_nonrun_base:
   .repeat 16
     pla
@@ -16,7 +15,6 @@ popslide_nonrun_base:
   .endrepeat
   inx
   bne popslide_nonrun_base
-
 popslide_nextpacket:
   pla
   bmi popslide_done
@@ -86,6 +84,7 @@ popslide_run_max = * - 3
   jmp popslide_nextpacket
   .assert (popslide_run_max - popslide_nonrun_base) < 256, error, "popslide_run_base crosses page boundary"
 
+.segment "POPSLIDE_CODE"
 
 popslide_init:
   lda #>popslide_nonrun_base

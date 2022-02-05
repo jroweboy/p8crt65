@@ -8,7 +8,7 @@
 .include "popslideinternal.inc"
 
 .bss
-.align 2
+
 nonrun_vector: .res 2
 run_vector: .res 2
 sp_save: .res 1
@@ -29,13 +29,14 @@ popslide_used: .res 1
 ; You will need about 560 bytes of ROM because both loops are
 ; unrolled by a factor of 64.
 
-.code
-.align 256
+.segment "POPSLIDE"
 popslide_nonrun_base:
   .repeat 64
     pla
     sta PPUDATA
   .endrepeat
+
+.segment "POPSLIDE_CODE"
 popslide_nextpacket:
   ; Get destination address: 18, or 23 if leaving
   pla
